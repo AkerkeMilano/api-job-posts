@@ -2,8 +2,8 @@ import { db } from "../db/db"
 import { PostEntityType, FilterType } from "./types"
 
 export const jobPostRepository = {
-    async createPost(dto: PostEntityType) {
-        const createdPost = await db.query('INSERT INTO post (title, description, salary_range, location) VALUES ($1, $2, $3, $4) RETURNING *', [dto.title, dto.description, dto.salary, dto.location])
+    async createPost(dto: PostEntityType, userId: number) {
+        const createdPost = await db.query('INSERT INTO post (title, description, salary_range, location, recruiter_id) VALUES ($1, $2, $3, $4, $5) RETURNING *', [dto.title, dto.description, dto.salary, dto.location, userId])
         return createdPost.rows[0]
     },
     async getAllPosts(filter: FilterType) {
@@ -33,18 +33,18 @@ export const jobPostRepository = {
             jobs: result.rows,
         }
     },
-    async getPostById(postId: string) {
+    async getPostById(postId: number) {
         const post = await db.query('SELECT * FROM post WHERE id = $1', [postId])
         return post.rows[0]
     },
-    async updatePost(dto: PostEntityType, postId: string) {
+    async updatePost(dto: PostEntityType, postId: number) {
         const updatedJobPost = await db.query(
             'UPDATE post SET title = $1, description = $2, salary_range = $3, location = $4, updated_at = NOW() WHERE id = $5 RETURNING *',
             [dto.title, dto.description, dto.salary, dto.location, postId]
           )
         return updatedJobPost.rows[0]
     },
-    async deletePost(postId: string) {
+    async deletePost(postId: number) {
         const result = await db.query('DELETE FROM post WHERE id = $1', [postId])
         return result.rowCount === 1
     }
