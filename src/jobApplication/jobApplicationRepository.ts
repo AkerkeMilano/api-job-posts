@@ -8,7 +8,7 @@ export const jobApplicationRepository = {
     },
     async getApplications(postId: number) {
         const applicationsOfPost = await db.query('SELECT * FROM application WHERE post_id = $1', [postId]);
-        return applicationsOfPost.rows[0]
+        return applicationsOfPost.rows
     },
     async updateApplicationStatus(status: string, applicationId: number) {
         const updatedApplication = await db.query(

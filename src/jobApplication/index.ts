@@ -3,5 +3,5 @@ import { getApplicationsByPostId, manageApplicationById } from "./jobApplication
 import { authUserMiddleware } from "../middlewares/authUserMiddleware";
 export const applicationRouter = Router()
 
-applicationRouter.get('/:posId', authUserMiddleware, getApplicationsByPostId)
-applicationRouter.patch('/:id', authUserMiddleware, manageApplicationById)
+applicationRouter.get('/:postId', authUserMiddleware, getApplicationsByPostId)
+applicationRouter.patch('/:id', authUserMiddleware, manageApplicationById)  

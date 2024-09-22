@@ -15,13 +15,14 @@ export const jobPostService = {
         const res = await jobPostRepository.getAllPosts({page, location, title, limit, offset})
         return res
     },
-    async updatePost(dto: PostEntityType, postId: number, userId: number) {
+
+    async updatePost(dto: any, postId: number, userId: number) {
         const post = await jobPostRepository.getPostById(postId)
         if(!post) {
             throw new AppError('Post not found', HTTP_STATUSES.NOT_FOUND_404)
         }
         if(post.recruiter_id !== userId) {
-            throw new AppError('Trying to delete not your post', HTTP_STATUSES.FORBIDDEN_403)
+            throw new AppError('Trying to update not your post', HTTP_STATUSES.FORBIDDEN_403)
         }
         const updatedJobPost = await jobPostRepository.updatePost(dto, postId)
         return updatedJobPost

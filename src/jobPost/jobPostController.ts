@@ -5,7 +5,6 @@ import { HTTP_STATUSES } from "../settings";
 export const createPost = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const userId = req.userId
-
         const post = await jobPostService.createPost(req.body, userId)
         res.status(HTTP_STATUSES.CREATED_201).json(post)
     } catch(e){

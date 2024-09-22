@@ -14,7 +14,7 @@ export const createApplication = async (req: Request, res: Response, next: NextF
 export const getApplicationsByPostId = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const userId = req.userId
-        const postId = +req.params.posId
+        const postId = +req.params.postId
         const applications = await jobApplicationService.getApplicationsByPostId(postId, userId)
         res.status(HTTP_STATUSES.OK_200).json(applications)
     } catch(e) {

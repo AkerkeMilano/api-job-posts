@@ -6,6 +6,6 @@ export const createJobApplicationTable = `
         resume TEXT,
         status VARCHAR(50) DEFAULT 'submitted',
         created_at TIMESTAMP DEFAULT NOW(),
-        post_id INT REFERENCES post(id)
+        post_id INT REFERENCES post(id) ON DELETE CASCADE
     );
 `;
