@@ -57,7 +57,21 @@ describe('/posts', () => {
         .send(jobInfo)
 
         expect(response.statusCode).toBe(HTTP_STATUSES.CREATED_201)
-    })
+    }),
+    it('should not create a post with no location', async () => {
+        const jobInfo = {
+            title: "Office manager",
+            description: "You will be responsible for calls and clients service",
+            salary: "300000-500000"
+        }
+
+        const response = await req.post(SETTINGS.PATH.POSTS)
+        .set('Authorization', `Bearer ${accessToken}`)
+        .send(jobInfo)
+
+        expect(response.statusCode).toBe(HTTP_STATUSES.BAD_REQUEST_400)
+        expect(response.body.errorsMessages[0].field).toBe('location')
+    }),
     it('should return posts', async () => {
         const response = await req.get(SETTINGS.PATH.POSTS)
  
@@ -79,6 +93,17 @@ describe('/posts', () => {
         const response = await req.post(SETTINGS.PATH.POSTS + `/${jobId}/apply`).send(jobApp)
 
         expect(response.statusCode).toBe(HTTP_STATUSES.CREATED_201)
+    }),
+    it('should not create application for job since resume is empty', async () => {
+        const jobApp = {
+            name: 'Ainura Malik',
+            email: 'ainura@gmail.com'
+        }
+
+        const response = await req.post(SETTINGS.PATH.POSTS + `/${jobId}/apply`).send(jobApp)
+
+        expect(response.statusCode).toBe(HTTP_STATUSES.BAD_REQUEST_400)
+        expect(response.body.errorsMessages[0].field).toBe('resume')
     }),
     it('should delete post', async () => {
         const response = await req.delete(SETTINGS.PATH.POSTS + `/${jobId}`)

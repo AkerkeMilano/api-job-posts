@@ -7,6 +7,15 @@ import { jwtService } from "../adapters/jwtService"
 
 export const recruiterService = {
     async registerUser(dto: RecruiterEntityType) {
+        const userByEmail = await recruiterRepository.isUserExistByEmail(dto.email)
+        if(userByEmail){
+            throw new AppError('User with current email already exist', HTTP_STATUSES.BAD_REQUEST_400)
+        }
+        const userByLogin = await recruiterRepository.isUserExistByEmail(dto.email)
+        if(userByLogin){
+            throw new AppError('User with current login already exist', HTTP_STATUSES.BAD_REQUEST_400)
+        }
+
         const updatedUserData = {
             login: dto.login,
             email: dto.email,

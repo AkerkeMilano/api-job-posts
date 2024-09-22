@@ -10,6 +10,14 @@ export const recruiterRepository = {
         const user = await db.query('SELECT * FROM recruiter WHERE login = $1 OR email = $2 LIMIT 1', [emailOrLogin, emailOrLogin])
         return user.rows[0]
     },
+    async isUserExistByEmail(email: string) {
+        const user = await db.query('SELECT * FROM recruiter WHERE email = $1', [email])
+        return user.rows[0]
+    },
+    async isUserExistByLogin(login: string) {
+        const user = await db.query('SELECT * FROM recruiter WHERE login = $1', [login])
+        return user.rows[0]
+    },
     async getUserById(userId: number) {
         const user = await db.query('SELECT * FROM recruiter WHERE id = $1', [userId])
         return user.rows[0]
