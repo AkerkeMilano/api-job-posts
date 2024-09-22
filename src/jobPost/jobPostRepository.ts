@@ -37,15 +37,19 @@ export const jobPostRepository = {
         const post = await db.query('SELECT * FROM post WHERE id = $1', [postId])
         return post.rows[0]
     },
-    async updatePost(dto: PostEntityType, postId: number) {
-        const updatedJobPost = await db.query(
-            'UPDATE post SET title = $1, description = $2, salary_range = $3, location = $4, updated_at = NOW() WHERE id = $5 RETURNING *',
-            [dto.title, dto.description, dto.salary, dto.location, postId]
-          )
+    async updatePost(dto: any, postId: number) {
+        const fields = Object.keys(dto);
+        const query = `
+        UPDATE post
+        SET ${fields.map((field, index) => `${field} = $${index + 1}`).join(', ')}, updated_at = NOW()
+        WHERE id = $${fields.length + 1} RETURNING *
+         `;
+        const values = [...fields.map(field => dto[field]), postId];
+        const updatedJobPost = await db.query(query, values);
         return updatedJobPost.rows[0]
     },
     async deletePost(postId: number) {
         const result = await db.query('DELETE FROM post WHERE id = $1', [postId])
         return result.rowCount === 1
     }
-}
+} 
