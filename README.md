@@ -1,3 +1,34 @@
+## How to start the project
+**Database**
+
+Create database called <mark>jobsapp</mark>
+
+**Env file**
+
+Create .env file in main dir, put these lines inside and change to your db settings
+
+DB_HOST='your_localhost'
+
+DB_PORT='your_port'
+
+DB_USER='your_username'
+
+DB_PASSWORD='your_password'
+
+DB_NAME=jobsapp
+
+PORT='your_app_port'
+
+JWT_SECRET_KEY=ringiCoJWT
+
+**Project run**
+
+Go to main dir, where package.json is located and install dependencies <mark>yarn install</mark>
+
+Run project using <mark>yarn watch</mark> and <mark>yarn dev</mark> in different terminals
+
+Check test run <mark>yarn jest</mark>
+
 ## Job Posting API Endpoints
 #### 1. POST <mark>/api/posts</mark>
 **Description:** Allows authenticated recruiters to create a new job posting.
